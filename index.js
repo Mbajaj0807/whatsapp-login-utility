@@ -44,7 +44,8 @@ app.post('/generate-token', async (req, res) => {
 
 
 app.get('/verify-token', async (req, res) => {
-  const { token } = req.query;
+  const { token,phonenumber } = req.query;
+  
 
   if (!token) {
     return res.status(400).json({ error: 'Token is required' });
@@ -71,11 +72,6 @@ app.get('/verify-token', async (req, res) => {
     login.loginstatus = true;
     await login.save();
 
-    // res.json({
-    //   phonenumber: login.phonenumber,
-    //   logintime: loginTime,
-    //   expirytime: login.expirytime
-    // });
     res.redirect('login.html');
   } catch (error) {
     console.error('Error verifying token:', error);
