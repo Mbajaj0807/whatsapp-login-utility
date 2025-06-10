@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="login-container">
+    <h1>Login With Whatsapp</h1>
+    <form id="login-form">
+      <label for="phonenumber">Phone Number:</label>
+      <input type="text" id="phonenumber" name="phonenumber" required>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  
+    <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const phonenumber = document.getElementById('phonenumber').value;
+
+      try {
+        const res = await fetch('http://localhost:3000/generate-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phonenumber })
+        });
+
+        const data = await res.json();
+
+        // Redirect to WhatsApp link
+        if (data.link) {
+          window.location.href = data.link;
+        } else {
+          alert('Error generating link');
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert('Failed to login. Check console.');
+      }
+    });
+  </script>
+</body>
+</html>
