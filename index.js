@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const Login = require('./models/Login');
 require('dotenv').config();
 const cors = require('cors');
+const path = require('path');
 
 
 
@@ -35,7 +36,12 @@ app.post('/generate-token', async (req, res) => {
 
 
 
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-app.use(express.static('public'));
+
